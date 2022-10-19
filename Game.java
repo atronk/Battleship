@@ -4,19 +4,16 @@ import java.util.Scanner;
 
 public class Game {
     final static Scanner sc = new Scanner(System.in);
-    final public static int SIZE_ROWS = 10;
-    final public static int SIZE_COLS = 10;
+    final static int SIZE_ROWS = 10;
+    final static int SIZE_COLS = 10;
 
-    public static void clearConsole() {
-        for (int i = 0; i < 21; i++) {
-            System.out.print("\n");
-        }
+    static void clearConsole() {
         try {
             final String os = System.getProperty("os.name");
             if (os.contains("Windows")) {
-                Runtime.getRuntime().exec("cls");
+                Runtime.getRuntime().exec(new String[]{"cls"}).waitFor();
             } else {
-                Runtime.getRuntime().exec("clear");
+                Runtime.getRuntime().exec(new String[]{"clear"}).waitFor();
             }
         } catch (final Exception e) {
             System.out.printf("Exception %s", e.getMessage());
@@ -38,7 +35,7 @@ public class Game {
         return false;
     }
 
-    public void start() {
+    void start() {
         Player p1 = new Player("Player 1");
         Player p2 = new Player("Player 2");
 

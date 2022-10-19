@@ -1,13 +1,11 @@
 package battleship;
 
 public class Player {
-    int score;
     final private Battlefield bf;
     final private String name;
 
     Player(String name) {
         this.bf = new Battlefield();
-        this.score = 0;
         this.name = name;
     }
 

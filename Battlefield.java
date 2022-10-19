@@ -1,10 +1,12 @@
 package battleship;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Battlefield {
-    final public static int ROWS = Game.SIZE_ROWS;
-    final public static int COLS = Game.SIZE_COLS;
+    final static int ROWS = Game.SIZE_ROWS;
+    final static int COLS = Game.SIZE_COLS;
     final private char SYM_FOG = '~';
     final private char SYM_SHIP = 'O';
     final private char SYM_HIT = 'X';
@@ -13,21 +15,6 @@ public class Battlefield {
     final private ArrayList<Ship> ships = new ArrayList<>();
     final private char[][] field;
     final private Set<Coordinate> shotCells = new HashSet<>();
-
-    enum SHIP_TYPE {
-        CARRIER(5, "Aircraft Carrier"),
-        BATTLESHIP(4, "Battleship"),
-        SUBMARINE(3, "Submarine"),
-        CRUISER(3, "Cruiser"),
-        DESTROYER(2, "Destroyer");
-        final int size;
-        final String name;
-
-        SHIP_TYPE(int i, String name) {
-            this.size = i;
-            this.name = name;
-        }
-    }
 
     Battlefield() {
         Coordinate.setNeighbourDelta();
@@ -180,5 +167,20 @@ public class Battlefield {
             markAt(c, SYM_MISS);
         }
         return msg;
+    }
+
+    enum SHIP_TYPE {
+        CARRIER(5, "Aircraft Carrier"),
+        BATTLESHIP(4, "Battleship"),
+        SUBMARINE(3, "Submarine"),
+        CRUISER(3, "Cruiser"),
+        DESTROYER(2, "Destroyer");
+        final int size;
+        final String name;
+
+        SHIP_TYPE(int i, String name) {
+            this.size = i;
+            this.name = name;
+        }
     }
 }

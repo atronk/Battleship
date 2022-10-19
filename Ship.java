@@ -3,8 +3,8 @@ package battleship;
 import java.util.Set;
 
 public class Ship {
-    final int size;
-    final String name;
+    final private int size;
+    final private String name;
     Set<Coordinate> coordinates;
 
 

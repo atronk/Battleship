@@ -9,16 +9,49 @@ public class Coordinate {
     private int r;
     private int c;
 
-    public Coordinate(Coordinate that) {
+    Coordinate(Coordinate that) {
         this.r = that.r;
         this.c = that.c;
     }
 
-    public int r() {
+    Coordinate(int r, int c) {
+        if (r < 0 || c < 0 || r > Battlefield.ROWS || c > Battlefield.COLS) {
+            throw new IndexOutOfBoundsException();
+        }
+        this.r = r;
+        this.c = c;
+    }
+
+    Coordinate(String coor) {
+        if (coor == null || coor.length() < 2) {
+            throw new IllegalArgumentException("Coordinate (" + coor + ") is wrong.");
+        }
+        r = parseR(coor);
+        c = parseC(coor);
+    }
+
+    static Set<Coordinate> getCoordinatesFromTo(Coordinate c1, Coordinate c2) {
+        Set<Coordinate> set = new HashSet<>();
+
+        for (Coordinate c = new Coordinate(c1); !c.equals(c2); c.moveTo(c2)) {
+            set.add(new Coordinate(c));
+        }
+        set.add(c2);
+        return set;
+    }
+
+    static void setNeighbourDelta() {
+        neighbourDelta.add(new int[]{0, 1});
+        neighbourDelta.add(new int[]{0, -1});
+        neighbourDelta.add(new int[]{1, 0});
+        neighbourDelta.add(new int[]{-1, 0});
+    }
+
+    int r() {
         return this.r;
     }
 
-    public int c() {
+    int c() {
         return this.c;
     }
 
@@ -43,22 +76,6 @@ public class Coordinate {
         return col - 1;
     }
 
-    Coordinate(int r, int c) {
-        if (r < 0 || c < 0 || r > Battlefield.ROWS || c > Battlefield.COLS) {
-            throw new IndexOutOfBoundsException();
-        }
-        this.r = r;
-        this.c = c;
-    }
-
-    Coordinate(String coor) {
-        if (coor == null || coor.length() < 2) {
-            throw new IllegalArgumentException("Coordinate (" + coor + ") is wrong.");
-        }
-        r = parseR(coor);
-        c = parseC(coor);
-    }
-
     private boolean isSameRow(Coordinate that) {
         return this.r == that.r;
     }
@@ -67,7 +84,7 @@ public class Coordinate {
         return this.c == that.c;
     }
 
-    public boolean onSameAxis(Coordinate c) {
+    boolean onSameAxis(Coordinate c) {
         return isSameRow(c) || isSameCol(c);
     }
 
@@ -89,11 +106,11 @@ public class Coordinate {
         return Objects.hash(r, c);
     }
 
-    public int shipLenTo(Coordinate that) {
+    int shipLenTo(Coordinate that) {
         return Math.abs(this.r - that.r) + Math.abs(this.c - that.c) + 1;
     }
 
-    public void moveTo(Coordinate that) {
+    void moveTo(Coordinate that) {
         if (this.r != that.r) {
             if (this.r < that.r)
                 ++this.r;
@@ -107,17 +124,7 @@ public class Coordinate {
         }
     }
 
-    public static Set<Coordinate> getCoordinatesFromTo(Coordinate c1, Coordinate c2) {
-        Set<Coordinate> set = new HashSet<>();
-
-        for (Coordinate c = new Coordinate(c1); !c.equals(c2); c.moveTo(c2)) {
-            set.add(new Coordinate(c));
-        }
-        set.add(c2);
-        return set;
-    }
-
-    public Set<Coordinate> getNeighbours() {
+    Set<Coordinate> getNeighbours() {
         Set<Coordinate> neigh = new HashSet<>();
         for (int[] del : neighbourDelta) {
             int dr = r + del[0];
@@ -127,13 +134,6 @@ public class Coordinate {
             }
         }
         return neigh;
-    }
-
-    static void setNeighbourDelta() {
-        neighbourDelta.add(new int[]{0, 1});
-        neighbourDelta.add(new int[]{0, -1});
-        neighbourDelta.add(new int[]{1, 0});
-        neighbourDelta.add(new int[]{-1, 0});
     }
 
 }
